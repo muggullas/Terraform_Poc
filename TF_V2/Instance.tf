@@ -21,3 +21,10 @@ data "aws_ssm_parameter" "ami" {
 # RESOURCES
 ##################################################################################
 
+
+# INSTANCES #
+resource "aws_instance" "nginx1" {
+  ami                    = nonsensitive(data.aws_ssm_parameter.ami.value)
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.subnet1.id
+  vpc_security_group_ids = [aws_security_group.nginx-sg.id]
